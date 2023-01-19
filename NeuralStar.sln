@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NeuralStar", "NeuralStar.vcxproj", "{D5B57ACA-0048-4850-8D9F-84C123D5C571}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D5B57ACA-0048-4850-8D9F-84C123D5C571}.Debug|x64.ActiveCfg = Debug|x64
+		{D5B57ACA-0048-4850-8D9F-84C123D5C571}.Debug|x64.Build.0 = Debug|x64
+		{D5B57ACA-0048-4850-8D9F-84C123D5C571}.Debug|x86.ActiveCfg = Debug|Win32
+		{D5B57ACA-0048-4850-8D9F-84C123D5C571}.Debug|x86.Build.0 = Debug|Win32
+		{D5B57ACA-0048-4850-8D9F-84C123D5C571}.Release|x64.ActiveCfg = Release|x64
+		{D5B57ACA-0048-4850-8D9F-84C123D5C571}.Release|x64.Build.0 = Release|x64
+		{D5B57ACA-0048-4850-8D9F-84C123D5C571}.Release|x86.ActiveCfg = Release|Win32
+		{D5B57ACA-0048-4850-8D9F-84C123D5C571}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A3328D4C-5991-467F-B4BB-D3A93BA3A3F9}
+	EndGlobalSection
+EndGlobal
