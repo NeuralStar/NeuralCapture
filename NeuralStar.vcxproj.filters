@@ -13,22 +13,40 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\Core">
+    <Filter Include="Source Files\Training">
+      <UniqueIdentifier>{ec1cde3d-ad12-4485-8932-d8f9772bd7ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Capture">
       <UniqueIdentifier>{3898882e-77d0-4af3-821b-2e178f6a40a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core">
+      <UniqueIdentifier>{eee64be9-9f0a-44de-8aac-3da59ab2900e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="NeuralStar.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="core\init.cpp">
+    <ClCompile Include="capture\record.cpp">
+      <Filter>Source Files\Capture</Filter>
+    </ClCompile>
+    <ClCompile Include="capture\debug.cpp">
+      <Filter>Source Files\Capture</Filter>
+    </ClCompile>
+    <ClCompile Include="capture\init.cpp">
+      <Filter>Source Files\Capture</Filter>
+    </ClCompile>
+    <ClCompile Include="core\launch.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="core\data.cpp">
-      <Filter>Source Files\Core</Filter>
+    <ClCompile Include="training\logic.cpp">
+      <Filter>Source Files\Training</Filter>
     </ClCompile>
-    <ClCompile Include="core\debug.cpp">
-      <Filter>Source Files\Core</Filter>
+    <ClCompile Include="training\design.cpp">
+      <Filter>Source Files\Training</Filter>
+    </ClCompile>
+    <ClCompile Include="training\picker.cpp">
+      <Filter>Source Files\Training</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -36,6 +54,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="includes\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\training.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\capture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Data.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

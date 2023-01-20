@@ -1,4 +1,4 @@
-#include "core.h"
+#include "capture.h"
 #include <map>
 
 /**
@@ -24,7 +24,7 @@ static bool defineCollums(t_handle* handle, std::ofstream &out)
 	std::map<uint32_t, const char*>		map;
 	std::pair<const char*, uint32_t>	pair;
 
-	// Get each index
+	// Get each index of each entries
 	for (uint32_t i = 0; i < 17; i++)
 	{
 		pair = std::make_pair(all[i], 0);
@@ -36,7 +36,7 @@ static bool defineCollums(t_handle* handle, std::ofstream &out)
 		map.insert(std::make_pair(pair.second, pair.first));
 	}
 
-	// Finally put them in the file
+	// Finally put each entries in index order
 	for (auto it = map.begin(); it != map.end(); it++)
 	{
 		if (it != map.begin())

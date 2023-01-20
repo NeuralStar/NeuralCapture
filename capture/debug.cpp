@@ -1,4 +1,4 @@
-#include "core.h"
+#include "capture.h"
 
 /**
  * Clear up used memory by passing the used

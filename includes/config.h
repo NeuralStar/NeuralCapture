@@ -1,21 +1,52 @@
 #pragma once
-#include "unicorn.h"
 
-namespace config {
+namespace config
+{
+
+	// Toggle training mode (when on, can helps focus for capture)
+	constexpr const bool		training = true;
+
+	// Toggle capture mode (when off, helps debugging training)
+	constexpr const bool		capture = false;
+
+	/* ******************************************* */
+	/*                                             */
+	/*                CAPTURE MODE                 */
+	/*                                             */
+	/* ******************************************* */
 
 	// Path of the output file
-	constexpr const char*	file = "data.csv";
+	constexpr const char*		file = "data.csv";
 
 	// Sampling rate of the amplifiers
-	constexpr uint32_t		sample = UNICORN_SAMPLING_RATE;
+	constexpr const uint32_t	sample = 250;
 
 	// How much data is fetch per data call
-	constexpr uint32_t		frames = 1;
-
+	constexpr const uint32_t	frames = 1;
+	
 	// Duration of the recording in seconds
-	constexpr double		duration = 10.0;
+	constexpr const double		duration = 10.0;
 
 	// If signal checks is requierd
-	constexpr bool			signal = true;
+	constexpr const bool		signal = true;
+
+	// Allows attempting to connect to non paired devices
+	// WARNING: Can takes a very long time to search!
+	constexpr const bool		allow_nopair = false;
+
+	/* ******************************************* */
+	/*                                             */
+	/*                TRAINING MODE                */
+	/*                                             */
+	/* ******************************************* */
+
+	// Window's title
+	constexpr const char*		title = "Neural Training";
+
+	// Window's height
+	constexpr const uint32_t	height = 800;
+
+	// Window's width
+	constexpr const uint32_t	width = 1200;
 
 };
