@@ -1,5 +1,4 @@
 #include "training.h"
-#include <random>
 
 /**
  * Takes the input and alters data to performs
@@ -9,7 +8,7 @@
  * @param	key: Key input received
  * */
 static void keyHandler
-	(sf::RenderWindow* const win, const sf::Event::KeyEvent &key, Data* const data)
+	(window_type win, const sf::Event::KeyEvent &key, data_type data)
 {
 	switch (key.code)
 	{
@@ -35,7 +34,7 @@ static void keyHandler
  * @param	event: Event to handle
  * */
 static void eventHandler
-	(sf::RenderWindow* const win, const sf::Event &event, Data* const data)
+	(window_type win, const sf::Event &event, data_type data)
 {
 	switch (event.type)
 	{
@@ -58,14 +57,42 @@ static void eventHandler
  * 
  * @param	data: Internal data about the software
  * */
-static void logicHandler(Data* const data)
+static void logicHandler(data_type data)
 {
+	static Timer<std::chrono::seconds>	rng;
+	static Timer<std::chrono::seconds>	min;
+	uint8_t								all = 2;
+
+	// Apply Timers
+	min.finish();
+	rng.finish();
+	if (min.duration() > 3) all++;
+
+	// Resets every X time (from config)
+	// or reset timer if manually done
+	if (data->display == Data::None)
+		rng.start();
+	if (config::timer > 0 && rng.duration() > config::timer)
+	{
+		data->display = Data::None;
+		rng.start();
+	}
+
+	// Changes to a new set of display and direction
 	srand(static_cast<uint32_t>(time(nullptr)));
 	if (data->display == Data::None)
 	{
 		// Set back display to Arrow
 		// (will be random aswell once more options are avaible)
-		data->display = Data::Arrow;
+		data->display = static_cast<Data::Display>(rand() % all);
+
+		// Resets timer if Void appears to prevent
+		// from appearing too often
+		if (data->display == Data::Void)
+		{
+			min.start();
+			return;
+		}
 
 		// Pick random direction and make sure it never same as current
 		Data::Direction newDir = static_cast<Data::Direction>(rand() % 0x4);
@@ -85,15 +112,17 @@ static void logicHandler(Data* const data)
  * @param	win: Targetted window
  * @param	data: Internal data about the software
  * */
-void windowLoop
-	(sf::RenderWindow* const win, sf::VertexArray** v, Data* const data)
+void windowLoop(window_type win, data_type data, assets_type a)
 {
 	sf::Event	e;
 	while (win->isOpen())
 	{
 		// Checks if application is still active
 		if (!data->isActive)
+		{
 			win->close();
+			return;
+		}
 
 		// Handles events first
 		while (win->pollEvent(e))
@@ -106,7 +135,7 @@ void windowLoop
 
 		// Handles drawing second
 		win->clear();
-		display(win, v, data);
+		display(win, data, a);
 		win->display();
 	}
 }

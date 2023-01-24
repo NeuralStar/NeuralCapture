@@ -8,6 +8,7 @@ class Data
 	public:
 		enum Direction
 		{
+			Any = -1,
 			Up = 0x0,
 			Down = 0x1,
 			Left = 0x2,
@@ -19,6 +20,7 @@ class Data
 			None = -1,
 			Arrow = 0x0,
 			Text = 0x1,
+			Void = 0x2,
 		};
 
 		bool		isActive;

@@ -1,50 +1,4 @@
 #include "capture.h"
-#include <map>
-
-/**
- * Requests and print out the channel's indexes,
- * to put down in the output file for each collumns
- * 
- * @param	handle: Target device's handle
- * @param	out: Output stream to write on
- * 
- * @return	True or False if was successful
- * */
-static bool defineCollums(t_handle* handle, std::ofstream &out)
-{
-	// List of all possible entries
-	const char* all[] =
-	{
-		"EEG 1", "EEG 2", "EEG 3", "EEG 4", "EEG 5", "EEG 6", "EEG 7", "EEG 8",
-		"Accelerometer X", "Accelerometer Y", "Accelerometer Z",
-		"Gyroscope X", "Gyroscope Y", "Gyroscope Z",
-		"Battery Level", "Validation Indicator", "Counter",
-	};
-
-	std::map<uint32_t, const char*>		map;
-	std::pair<const char*, uint32_t>	pair;
-
-	// Get each index of each entries
-	for (uint32_t i = 0; i < 17; i++)
-	{
-		pair = std::make_pair(all[i], 0);
-		if (UNICORN_GetChannelIndex(*handle, pair.first, &pair.second))
-		{
-			std::cout << "Failed fetch channels index : " << pair.first << std::endl;
-			return false;
-		}
-		map.insert(std::make_pair(pair.second, pair.first));
-	}
-
-	// Finally put each entries in index order
-	for (auto it = map.begin(); it != map.end(); it++)
-	{
-		if (it != map.begin())
-			out << ",";
-		out << it->second;
-	}
-	return true;
-}
 
 /**
  * Prepares the recording by opening the output and
@@ -59,7 +13,7 @@ static bool defineCollums(t_handle* handle, std::ofstream &out)
  * @return	True or False if preparation was successful
  * */
 static bool	recordPrepare
-	(t_handle* handle, std::ofstream &out, float* &buffer, uint32_t &buffer_size)
+(t_handle* handle, std::ofstream& out, float*& buffer, uint32_t& buffer_size)
 {
 	// Get some data from the handle
 	uint32_t channels = 0;
@@ -74,7 +28,7 @@ static bool	recordPrepare
 	std::cout << "Sampling Rate: " << config::sample << "Hz" << std::endl;
 	std::cout << "Frame Length: " << config::frames << std::endl;
 	std::cout << "Total Channels: " << channels << std::endl;
-	std::cout << "Recording Duration: " << config::duration << std::endl;
+	std::cout << "Recording Duration: " << config::duration << "s" << std::endl;
 	std::cout << std::endl;
 
 	// Prepare buffers
@@ -102,7 +56,7 @@ static bool	recordPrepare
  * @return	True or False if recording was successful
  * */
 static bool recordRun
-	(t_handle* handle, std::ofstream &out, float* &buffer, uint32_t &buffer_size)
+	(t_handle* handle, std::ofstream &out, float* &buffer, uint32_t &buffer_size, Data *const data)
 {
 	// Starts recording
 	if (UNICORN_StartAcquisition(*handle, config::signal))
@@ -113,16 +67,18 @@ static bool recordRun
 	uint32_t calls = static_cast<int>(config::duration * (static_cast<float>(config::sample) / config::frames));
 	if (!defineCollums(handle, out))
 		return recordError(out, buffer);
-	for (uint32_t i = 0; i < calls; i++)
+	Timer<std::chrono::microseconds>	t;
+	for (uint32_t i = 0; i < calls && data->isActive; i++)
 	{
+		// Fetch the data from the headset
 		if (UNICORN_GetData(*handle, config::frames, buffer, buffer_size))
 			recordError(out, buffer, "An error occured while recording!");
-		for (uint32_t y = 0; y < buffer_size; y++)
-		{
-			if (y) out << ",";
-			else out << "\n";
-			out << buffer[y];
-		}
+
+		// Output the returned data
+		writeValues(out, buffer, buffer_size);
+		writeDirectives(out, data);
+		t.finish();
+		out << "," << t.duration();
 	}
 
 	// Stop recording
@@ -139,7 +95,7 @@ static bool recordRun
  * 
  * @return	True of False if successful
  * */
-bool	recordDevice(t_handle* handle)
+bool	recordDevice(t_handle* handle, Data *const data)
 {
 	// Variables
 	std::ofstream out;
@@ -149,7 +105,7 @@ bool	recordDevice(t_handle* handle)
 	// Prepare and run
 	if (!recordPrepare(handle, out, buffer, buffer_size))
 		return false;
-	if (!recordRun(handle, out, buffer, buffer_size))
+	if (!recordRun(handle, out, buffer, buffer_size, data))
 		return false;
 
 	// Clear memory and returns
