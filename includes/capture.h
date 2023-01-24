@@ -8,8 +8,9 @@
 
 #include "unicorn.h"
 
-#include "config.h"
 #include "Data.h"
+#include "Timer.h"
+#include "config.h"
 
 ///  Definitions  ///
 
@@ -27,4 +28,8 @@ nullptr_t	clear(t_device* devices, t_handle* handle, const std::string& msg = st
 t_device*	fetch_devices(void);
 t_handle*	select_device(t_device* devices);
 
-bool		recordDevice(t_handle* handle);
+bool		defineCollums(t_handle* handle, std::ofstream& out);
+void		writeValues(std::ofstream& out, float* buffer, uint32_t& buffer_size);
+void		writeDirectives(std::ofstream& out, Data* const data);
+
+bool		recordDevice(t_handle* handle, Data* const data);

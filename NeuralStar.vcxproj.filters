@@ -42,10 +42,13 @@
     <ClCompile Include="training\logic.cpp">
       <Filter>Source Files\Training</Filter>
     </ClCompile>
-    <ClCompile Include="training\design.cpp">
+    <ClCompile Include="training\picker.cpp">
       <Filter>Source Files\Training</Filter>
     </ClCompile>
-    <ClCompile Include="training\picker.cpp">
+    <ClCompile Include="capture\output.cpp">
+      <Filter>Source Files\Capture</Filter>
+    </ClCompile>
+    <ClCompile Include="training\Assets.cpp">
       <Filter>Source Files\Training</Filter>
     </ClCompile>
   </ItemGroup>
@@ -65,5 +68,28 @@
     <ClInclude Include="includes\Data.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="includes\Assets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="assets\Almond Butter.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
+    <Font Include="assets\CuteBubble.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
+    <Font Include="assets\Division One Bold.otf">
+      <Filter>Resource Files</Filter>
+    </Font>
+    <Font Include="assets\Mario Kart DS.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
+    <Font Include="assets\VCR OSD Mono.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
   </ItemGroup>
 </Project>

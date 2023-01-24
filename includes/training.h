@@ -6,13 +6,18 @@
 #include <cstdint>
 #include <random>
 
-#include "SFML/Graphics.hpp"
-
 #include "Data.h"
+#include "Assets.h"
+#include "Timer.h"
 #include "config.h"
+
+///  Definitions  ///
+
+typedef sf::RenderWindow* const		window_type;
+typedef Data* const					data_type;
+typedef Assets* const				assets_type;
 
 ///  Functions  ///
 
-sf::VertexArray* const	prepareArrows();
-void					display(sf::RenderWindow* const win, sf::VertexArray** v, Data* const data);
-void					windowLoop(sf::RenderWindow* const win, sf::VertexArray** v, Data* const data);
+void		display(window_type win, data_type data, assets_type a);
+void		windowLoop(window_type win, data_type data, assets_type a);

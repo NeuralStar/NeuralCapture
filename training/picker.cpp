@@ -1,33 +1,23 @@
 #include "training.h"
 
 /**
- * Draws out arrows using the preloaded ones
+ * Writes down on screen plain text
  * 
  * @param	win: Targetted window
- * @param	v: Array of pre-rendered vertices
- * @param	dir: Direction of the display
+ * @param	dir: Direction of the displayable
  * */
-static void displayArrow
-	(sf::RenderWindow* const win, sf::VertexArray* v, const Data::Direction &dir)
+static void displayText(window_type win, Assets::text_type t, const Data::Direction& dir)
 {
 	switch (dir)
 	{
 		case Data::Up:
-			win->draw(v[0]);
-			win->draw(v[4]);
 			break;
 		case Data::Down:
-			win->draw(v[1]);
-			win->draw(v[5]);
 			break;
 		case Data::Left:
-			win->draw(v[2]);
-			win->draw(v[6]);
 			break;
 		case Data::Right:
 		default:
-			win->draw(v[3]);
-			win->draw(v[7]);
 			break;
 	}
 }
@@ -37,18 +27,22 @@ static void displayArrow
  * (Third Cycle Step)
  *
  * @param	win: Targetted window
- * @param	v: Array of pre-rendered vertexes
  * @param	data: Internal data about the software
+ * @param	assets: Storage structure containing assets to draw
  * */
-void	display
-	(sf::RenderWindow* const win, sf::VertexArray** v, Data* const data)
+void display(window_type win, data_type d, assets_type a)
 {
-	if (!v) return;
-	switch (data->display)
+	if (!a) return;
+	switch (d->display)
 	{
 		case Data::Arrow:
-			if (!v[Data::Arrow]) return;
-			displayArrow(win, v[Data::Arrow], data->direction);
+			if (!a->arrows) return;
+			win->draw(a->arrows[d->direction]);						// Draw Tip
+			win->draw(a->arrows[d->direction + a->arrow_count]);	// Draw Stem
+			break;
+		case Data::Text:
+			if (!a->texts) return;
+			win->draw(a->texts[d->direction]);						// Draw text
 			break;
 		default:
 			break;

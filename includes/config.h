@@ -7,7 +7,7 @@ namespace config
 	constexpr const bool		training = true;
 
 	// Toggle capture mode (when off, helps debugging training)
-	constexpr const bool		capture = false;
+	constexpr const bool		capture = true;
 
 	/* ******************************************* */
 	/*                                             */
@@ -16,7 +16,7 @@ namespace config
 	/* ******************************************* */
 
 	// Path of the output file
-	constexpr const char*		file = "data.csv";
+	constexpr const char*		file = "rosieTest2s.csv";
 
 	// Sampling rate of the amplifiers
 	constexpr const uint32_t	sample = 250;
@@ -25,7 +25,7 @@ namespace config
 	constexpr const uint32_t	frames = 1;
 	
 	// Duration of the recording in seconds
-	constexpr const double		duration = 10.0;
+	constexpr const double		duration = 60.0;
 
 	// If signal checks is requierd
 	constexpr const bool		signal = true;
@@ -44,9 +44,13 @@ namespace config
 	constexpr const char*		title = "Neural Training";
 
 	// Window's height
-	constexpr const uint32_t	height = 800;
+	constexpr const uint32_t	height = 900;
 
 	// Window's width
-	constexpr const uint32_t	width = 1200;
+	constexpr const uint32_t	width = 1500;
+
+	// Automatly switches directions every
+	// NOTICE: Set to <0 for disable
+	constexpr const uint32_t	timer = 2;
 
 };

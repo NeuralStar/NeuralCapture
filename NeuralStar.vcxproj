@@ -134,21 +134,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="capture\output.cpp" />
     <ClCompile Include="capture\record.cpp" />
     <ClCompile Include="capture\debug.cpp" />
     <ClCompile Include="capture\init.cpp" />
     <ClCompile Include="core\launch.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="training\design.cpp" />
+    <ClCompile Include="training\Assets.cpp" />
     <ClCompile Include="training\logic.cpp" />
     <ClCompile Include="training\picker.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="includes\Assets.h" />
     <ClInclude Include="includes\capture.h" />
     <ClInclude Include="includes\config.h" />
     <ClInclude Include="includes\core.h" />
     <ClInclude Include="includes\Data.h" />
+    <ClInclude Include="includes\Timer.h" />
     <ClInclude Include="includes\training.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="assets\Almond Butter.ttf" />
+    <Font Include="assets\CuteBubble.ttf" />
+    <Font Include="assets\Division One Bold.otf" />
+    <Font Include="assets\Mario Kart DS.ttf" />
+    <Font Include="assets\VCR OSD Mono.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
