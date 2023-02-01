@@ -1,56 +1,60 @@
 #pragma once
 
-namespace config
+#include <cstdint>
+#include <string>
+
+class Config
 {
 
-	// Toggle training mode (when on, can helps focus for capture)
-	constexpr const bool		training = true;
+	public:
+		// Toggle training mode (when on, can helps focus for capture)
+		static bool			training;
 
-	// Toggle capture mode (when off, helps debugging training)
-	constexpr const bool		capture = true;
+		// Toggle capture mode (when off, helps debugging training)
+		static bool			capture;
 
-	/* ******************************************* */
-	/*                                             */
-	/*                CAPTURE MODE                 */
-	/*                                             */
-	/* ******************************************* */
+		/* ******************************************* */
+		/*                                             */
+		/*                CAPTURE MODE                 */
+		/*                                             */
+		/* ******************************************* */
 
-	// Path of the output file
-	constexpr const char*		file = "rosieTest2s.csv";
+		// Path of the output file
+		static std::string	file;
 
-	// Sampling rate of the amplifiers
-	constexpr const uint32_t	sample = 250;
+		// Sampling rate of the amplifiers
+		static uint32_t		sample;
 
-	// How much data is fetch per data call
-	constexpr const uint32_t	frames = 1;
-	
-	// Duration of the recording in seconds
-	constexpr const double		duration = 60.0;
+		// How much data is fetch per data call
+		static uint32_t		frames;
 
-	// If signal checks is requierd
-	constexpr const bool		signal = true;
+		// Duration of the recording in seconds
+		static double		duration;
 
-	// Allows attempting to connect to non paired devices
-	// WARNING: Can takes a very long time to search!
-	constexpr const bool		allow_nopair = false;
+		// If signal checks is requierd
+		static bool			signal;
 
-	/* ******************************************* */
-	/*                                             */
-	/*                TRAINING MODE                */
-	/*                                             */
-	/* ******************************************* */
+		// Allows attempting to connect to non paired devices
+		// WARNING: Can takes a very long time to search!
+		static bool			allow_nopair;
 
-	// Window's title
-	constexpr const char*		title = "Neural Training";
+		/* ******************************************* */
+		/*                                             */
+		/*                TRAINING MODE                */
+		/*                                             */
+		/* ******************************************* */
 
-	// Window's height
-	constexpr const uint32_t	height = 900;
+		// Window's title
+		static std::string	title;
 
-	// Window's width
-	constexpr const uint32_t	width = 1500;
+		// Window's height
+		static uint32_t		height;
 
-	// Automatly switches directions every
-	// NOTICE: Set to <0 for disable
-	constexpr const uint32_t	timer = 2;
+		// Window's width
+		static uint32_t		width;
+
+		// Automatly switches directions every
+		// NOTICE: Set to <0 for disable
+		static uint32_t		timer;
 
 };

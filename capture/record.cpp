@@ -25,19 +25,19 @@ static bool	recordPrepare
 
 	// Print out recording configs
 	std::cout << "Recording Configs:" << std::endl;
-	std::cout << "Sampling Rate: " << config::sample << "Hz" << std::endl;
-	std::cout << "Frame Length: " << config::frames << std::endl;
+	std::cout << "Sampling Rate: " << Config::sample << "Hz" << std::endl;
+	std::cout << "Frame Length: " << Config::frames << std::endl;
 	std::cout << "Total Channels: " << channels << std::endl;
-	std::cout << "Recording Duration: " << config::duration << "s" << std::endl;
+	std::cout << "Recording Duration: " << Config::duration << "s" << std::endl;
 	std::cout << std::endl;
 
 	// Prepare buffers
-	buffer_size = channels * config::frames;
+	buffer_size = channels * Config::frames;
 	buffer = new float[buffer_size];
 	if (!buffer) return false;
 
 	// Prepare output file
-	out.open(config::file, std::ios_base::binary);
+	out.open(Config::file, std::ios_base::binary);
 	if (!out.is_open())
 		return recordError(out, buffer, "Target output file couldn't be openned!");
 	return true;
@@ -58,20 +58,26 @@ static bool	recordPrepare
 static bool recordRun
 	(t_handle* handle, std::ofstream &out, float* &buffer, uint32_t &buffer_size, Data *const data)
 {
-	// Starts recording
-	if (UNICORN_StartAcquisition(*handle, config::signal))
+	// Do last preparations and define collums
+	if (UNICORN_StartAcquisition(*handle, Config::signal))
 		return recordError(out, buffer, "The recording couldnt be started!");
-	std::cout << "Recording has started!" << std::endl;
+	uint32_t calls = static_cast<int>(Config::duration * (static_cast<float>(Config::sample) / Config::frames));
+	if (!defineCollums(handle, out))
+		return recordError(out, buffer, "An error occured while defining collums!");
+
+	// Wait until everything is ready
+	data->captureRdy = true;
+	if (!data->trainingRdy)
+		std::cout << "Waiting on training module.." << std::endl;
+	while (!data->trainingRdy);
 
 	// Recording loop
-	uint32_t calls = static_cast<int>(config::duration * (static_cast<float>(config::sample) / config::frames));
-	if (!defineCollums(handle, out))
-		return recordError(out, buffer);
 	Timer<std::chrono::microseconds>	t;
+	std::cout << "Recording has started!" << std::endl;
 	for (uint32_t i = 0; i < calls && data->isActive; i++)
 	{
 		// Fetch the data from the headset
-		if (UNICORN_GetData(*handle, config::frames, buffer, buffer_size))
+		if (UNICORN_GetData(*handle, Config::frames, buffer, buffer_size))
 			recordError(out, buffer, "An error occured while recording!");
 
 		// Output the returned data

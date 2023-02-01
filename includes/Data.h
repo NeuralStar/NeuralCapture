@@ -1,4 +1,5 @@
 #pragma once
+#include "Config.h"
 
 class Data
 {
@@ -24,12 +25,14 @@ class Data
 		};
 
 		bool		isActive;
+		bool		captureRdy;
+		bool		trainingRdy;
 
 		Direction	direction;
 		Display		display;
 
 		inline Data() :
-			isActive(true), direction(Direction::Up),
-			display(Display::None) {};
+			isActive(true), captureRdy(!Config::capture), trainingRdy(!Config::training),
+			direction(Direction::Up), display(Display::None) {};
 		inline ~Data() {};
 };

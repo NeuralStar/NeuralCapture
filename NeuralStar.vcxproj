@@ -77,6 +77,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>;C:\Librairies\JSON-3.11.2</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -91,6 +92,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>;C:\Librairies\JSON-3.11.2</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -105,7 +107,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>SFML_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\colla\Desktop\Tech\NeuralStar\includes;C:\Users\colla\Documents\gtec\Unicorn Suite\Hybrid Black\Unicorn CAPI\Lib;C:\Users\colla\Desktop\Tech\NeuralStar\includes;$(SolutionDir)includes;%(AdditionalIncludeDirectories);C:\Librairies\SFML-2.5.1-VC15-x64\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\colla\Desktop\Tech\NeuralStar\includes;C:\Users\colla\Documents\gtec\Unicorn Suite\Hybrid Black\Unicorn CAPI\Lib;C:\Users\colla\Desktop\Tech\NeuralStar\includes;$(SolutionDir)includes;%(AdditionalIncludeDirectories);C:\Librairies\SFML-2.5.1-VC15-x64\include;C:\Librairies\JSON-3.11.2</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -122,7 +124,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>SFML_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\colla\Desktop\Tech\NeuralStar\includes;C:\Users\colla\Documents\gtec\Unicorn Suite\Hybrid Black\Unicorn CAPI\Lib;%(AdditionalIncludeDirectories);C:\Librairies\SFML-2.5.1-VC15-x64\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\colla\Desktop\Tech\NeuralStar\includes;C:\Users\colla\Documents\gtec\Unicorn Suite\Hybrid Black\Unicorn CAPI\Lib;%(AdditionalIncludeDirectories);C:\Librairies\SFML-2.5.1-VC15-x64\include;C:\Librairies\JSON-3.11.2</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,7 +132,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Users\colla\Documents\gtec\Unicorn Suite\Hybrid Black\Unicorn CAPI\Lib;C:\Librairies\SFML-2.5.1-VC15-x64\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Unicorn.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;Unicorn.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -138,7 +140,9 @@
     <ClCompile Include="capture\record.cpp" />
     <ClCompile Include="capture\debug.cpp" />
     <ClCompile Include="capture\init.cpp" />
+    <ClCompile Include="core\Config.cpp" />
     <ClCompile Include="core\launch.cpp" />
+    <ClCompile Include="core\prepare.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="training\Assets.cpp" />
     <ClCompile Include="training\logic.cpp" />
@@ -147,7 +151,7 @@
   <ItemGroup>
     <ClInclude Include="includes\Assets.h" />
     <ClInclude Include="includes\capture.h" />
-    <ClInclude Include="includes\config.h" />
+    <ClInclude Include="includes\Config.h" />
     <ClInclude Include="includes\core.h" />
     <ClInclude Include="includes\Data.h" />
     <ClInclude Include="includes\Timer.h" />
@@ -159,6 +163,9 @@
     <Font Include="assets\Division One Bold.otf" />
     <Font Include="assets\Mario Kart DS.ttf" />
     <Font Include="assets\VCR OSD Mono.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="config.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

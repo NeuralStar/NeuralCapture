@@ -34,24 +34,24 @@ Assets::~Assets()
 static void defineTrianglesVertices(Assets::vertices_type v)
 {
 	// Define up arrow top
-	v[0][0].position = sf::Vector2f(1 / 2.f * config::width, 1 / 8.f * config::height);
-	v[0][1].position = sf::Vector2f(1 / 3.f * config::width, 3 / 8.f * config::height);
-	v[0][2].position = sf::Vector2f(2 / 3.f * config::width, 3 / 8.f * config::height);
+	v[0][0].position = sf::Vector2f(1 / 2.f * Config::width, 1 / 8.f * Config::height);
+	v[0][1].position = sf::Vector2f(1 / 3.f * Config::width, 3 / 8.f * Config::height);
+	v[0][2].position = sf::Vector2f(2 / 3.f * Config::width, 3 / 8.f * Config::height);
 
 	// Define down arrow top
-	v[1][0].position = sf::Vector2f(1 / 2.f * config::width, 7 / 8.f * config::height);
-	v[1][1].position = sf::Vector2f(1 / 3.f * config::width, 5 / 8.f * config::height);
-	v[1][2].position = sf::Vector2f(2 / 3.f * config::width, 5 / 8.f * config::height);
+	v[1][0].position = sf::Vector2f(1 / 2.f * Config::width, 7 / 8.f * Config::height);
+	v[1][1].position = sf::Vector2f(1 / 3.f * Config::width, 5 / 8.f * Config::height);
+	v[1][2].position = sf::Vector2f(2 / 3.f * Config::width, 5 / 8.f * Config::height);
 
 	// Define left arrow top
-	v[2][0].position = sf::Vector2f(1 / 8.f * config::width, 1 / 2.f * config::height);
-	v[2][1].position = sf::Vector2f(3 / 8.f * config::width, 1 / 3.f * config::height);
-	v[2][2].position = sf::Vector2f(3 / 8.f * config::width, 2 / 3.f * config::height);
+	v[2][0].position = sf::Vector2f(1 / 8.f * Config::width, 1 / 2.f * Config::height);
+	v[2][1].position = sf::Vector2f(3 / 8.f * Config::width, 1 / 3.f * Config::height);
+	v[2][2].position = sf::Vector2f(3 / 8.f * Config::width, 2 / 3.f * Config::height);
 
 	// Define right arrow top
-	v[3][0].position = sf::Vector2f(7 / 8.f * config::width, 1 / 2.f * config::height);
-	v[3][1].position = sf::Vector2f(5 / 8.f * config::width, 1 / 3.f * config::height);
-	v[3][2].position = sf::Vector2f(5 / 8.f * config::width, 2 / 3.f * config::height);
+	v[3][0].position = sf::Vector2f(7 / 8.f * Config::width, 1 / 2.f * Config::height);
+	v[3][1].position = sf::Vector2f(5 / 8.f * Config::width, 1 / 3.f * Config::height);
+	v[3][2].position = sf::Vector2f(5 / 8.f * Config::width, 2 / 3.f * Config::height);
 }
 
 /**
@@ -63,28 +63,28 @@ static void defineTrianglesVertices(Assets::vertices_type v)
 static void defineQuadsVertices(Assets::vertices_type v)
 {
 	// Define up arrow body
-	v[0][0].position = sf::Vector2f(3 / 7.f * config::width, 3 / 8.f * config::height);
-	v[0][1].position = sf::Vector2f(3 / 7.f * config::width, 7 / 8.f * config::height);
-	v[0][2].position = sf::Vector2f(4 / 7.f * config::width, 7 / 8.f * config::height);
-	v[0][3].position = sf::Vector2f(4 / 7.f * config::width, 3 / 8.f * config::height);
+	v[0][0].position = sf::Vector2f(3 / 7.f * Config::width, 3 / 8.f * Config::height);
+	v[0][1].position = sf::Vector2f(3 / 7.f * Config::width, 7 / 8.f * Config::height);
+	v[0][2].position = sf::Vector2f(4 / 7.f * Config::width, 7 / 8.f * Config::height);
+	v[0][3].position = sf::Vector2f(4 / 7.f * Config::width, 3 / 8.f * Config::height);
 
 	// Define down arrow body
-	v[1][0].position = sf::Vector2f(3 / 7.f * config::width, 5 / 8.f * config::height);
-	v[1][1].position = sf::Vector2f(3 / 7.f * config::width, 1 / 8.f * config::height);
-	v[1][2].position = sf::Vector2f(4 / 7.f * config::width, 1 / 8.f * config::height);
-	v[1][3].position = sf::Vector2f(4 / 7.f * config::width, 5 / 8.f * config::height);
+	v[1][0].position = sf::Vector2f(3 / 7.f * Config::width, 5 / 8.f * Config::height);
+	v[1][1].position = sf::Vector2f(3 / 7.f * Config::width, 1 / 8.f * Config::height);
+	v[1][2].position = sf::Vector2f(4 / 7.f * Config::width, 1 / 8.f * Config::height);
+	v[1][3].position = sf::Vector2f(4 / 7.f * Config::width, 5 / 8.f * Config::height);
 
 	// Define left arrow body
-	v[2][0].position = sf::Vector2f(3 / 8.f * config::width, 3 / 7.f * config::height);
-	v[2][1].position = sf::Vector2f(7 / 8.f * config::width, 3 / 7.f * config::height);
-	v[2][2].position = sf::Vector2f(7 / 8.f * config::width, 4 / 7.f * config::height);
-	v[2][3].position = sf::Vector2f(3 / 8.f * config::width, 4 / 7.f * config::height);
+	v[2][0].position = sf::Vector2f(3 / 8.f * Config::width, 3 / 7.f * Config::height);
+	v[2][1].position = sf::Vector2f(7 / 8.f * Config::width, 3 / 7.f * Config::height);
+	v[2][2].position = sf::Vector2f(7 / 8.f * Config::width, 4 / 7.f * Config::height);
+	v[2][3].position = sf::Vector2f(3 / 8.f * Config::width, 4 / 7.f * Config::height);
 
 	// Define right arrow body
-	v[3][0].position = sf::Vector2f(5 / 8.f * config::width, 3 / 7.f * config::height);
-	v[3][1].position = sf::Vector2f(1 / 8.f * config::width, 3 / 7.f * config::height);
-	v[3][2].position = sf::Vector2f(1 / 8.f * config::width, 4 / 7.f * config::height);
-	v[3][3].position = sf::Vector2f(5 / 8.f * config::width, 4 / 7.f * config::height);
+	v[3][0].position = sf::Vector2f(5 / 8.f * Config::width, 3 / 7.f * Config::height);
+	v[3][1].position = sf::Vector2f(1 / 8.f * Config::width, 3 / 7.f * Config::height);
+	v[3][2].position = sf::Vector2f(1 / 8.f * Config::width, 4 / 7.f * Config::height);
+	v[3][3].position = sf::Vector2f(5 / 8.f * Config::width, 4 / 7.f * Config::height);
 }
 
 /**
@@ -178,7 +178,7 @@ Assets::text_type Assets::prepareTexts(size_ref count)
 	for (uint8_t i = 0; i < 4; i++)
 	{
 		t[i].setCharacterSize(250);
-		t[i].setPosition(0.3f * config::width, 0.3f * config::height);
+		t[i].setPosition(0.3f * Config::width, 0.3f * Config::height);
 
 		t[i].setFont(fonts[0]);
 		t[i].setFillColor(sf::Color::White);

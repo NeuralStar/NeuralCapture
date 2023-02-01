@@ -13,7 +13,7 @@ static const int exitThread(data_type d, const int v)
  * Entrypoint for the brainwave captures
  * @return	ErrorCode (0 for None)
  * */
-int		launchCapture(Data *const data)
+int		launchCapture(data_type data)
 {
 	// STEP 1: Verify system
 	printAPIVersion();
@@ -41,7 +41,7 @@ int		launchCapture(Data *const data)
  * Entrypoint for training mode
  * @return	ErrorCode (0 for None)
  * */
-int		launchTraining(Data *const data)
+int		launchTraining(data_type data)
 {
 	// STEP 1: Pre-render graphics
 	assets_type a = new Assets();
@@ -49,7 +49,7 @@ int		launchTraining(Data *const data)
 
 	// STEP 2: Prepare window
 	window_type win = new sf::RenderWindow
-		(sf::VideoMode(config::width, config::height), config::title);
+		(sf::VideoMode(Config::width, Config::height), Config::title);
 	if (!win) return exitThread(data, EXIT_FAILURE);
 
 	// STEP 3: Run the window's cycle
@@ -59,46 +59,4 @@ int		launchTraining(Data *const data)
 	delete a;
 	delete win;
 	return exitThread(data, EXIT_SUCCESS);
-}
-
-/**
- * Handles and manages for singular runtimes
- * @return	ErrorCode (0 for None)
- * */
-int launchSingle(int (*entrypoint)(Data* const))
-{
-	// Initialize data structure
-	data_type data = new Data();
-	if (!data) return EXIT_FAILURE;
-
-	// Run the actual target
-	int error = entrypoint(data);
-
-	// Clear up memory
-	delete data;
-	return error;
-}
-
-/**
- * Handles and manages all threads ressources
- * @return	ErrorCode (0 for None)
- * */
-int		launchThreads()
-{
-	// Initialize data structure
-	data_type data = new Data();
-	if (!data) return EXIT_FAILURE;
-
-	// Prepares the runtime
-	int error = 0;
-	sf::Thread t(launchCapture, data);
-
-	// Launch threads
-	t.launch();
-	error = launchTraining(data);
-	t.wait();
-
-	// Clear up memory
-	delete data;
-	return error;
 }

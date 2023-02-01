@@ -6,11 +6,13 @@
 #include "training.h"
 
 #include <thread>
+#include <nlohmann/json.hpp>
 
 ///  Functions  ///
 
-int			launchCapture(Data* const data);
-int			launchTraining(Data* const data);
+int			launchCapture(data_type const data);
+int			launchTraining(data_type const data);
 
-int			launchSingle(int (*entrypoint)(Data* const));
+bool		loadConfig(const std::string& path);
+int			launchSingle(int (*entrypoint)(data_type const));
 int			launchThreads();

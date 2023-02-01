@@ -2,16 +2,30 @@
 
 /**
  * Entrypoint of the software
+ * 
+ * @param	c: Amount of given arguments
+ * @param	args: Array of given arguments
+ * 
  * @return	ErrorCode (0 for None)
  * */
-int main()
+int main(int c, char** args)
 {
-	if (!config::training && config::capture)
+	// Load Config
+	const char* file = "config.json";
+	if (c > 2)
+		file = args[1];
+	if (!loadConfig(file))
+		return EXIT_FAILURE;
+
+	// Start modules
+	if (!Config::training && Config::capture)
 		return launchSingle(launchCapture);
-	else if (config::training && !config::capture)
+	else if (Config::training && !Config::capture)
 		return launchSingle(launchTraining);
-	else if (config::training && config::capture)
+	else if (Config::training && Config::capture)
 		return launchThreads();
-	std::cout << "Warning: Both Training or Capture are inactive in config.h!" << std::endl;
+
+	// If none of modules are enabled
+	std::cout << "Warning: Both Training or Capture are inactive in configuration file!" << std::endl;
 	return EXIT_SUCCESS;
 }

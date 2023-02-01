@@ -1,0 +1,22 @@
+{
+	"training": {
+		"enable": true,
+
+		"title": "Neural Training",
+		"height": 900,
+		"width": 1500,
+		"timer": 2
+	},
+
+	"capture":
+	{
+		"enable": true,
+
+		"output": "data.csv",
+		"sample": 250,
+		"frames": 1,
+		"duration": 10.0,
+		"signal": true,
+		"allow_nopair": false
+	}
+}

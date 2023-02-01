@@ -56,17 +56,17 @@ void	printAPIVersion()
 }
 
 /**
- * Quickly checks the config.h content
+ * Quickly checks the config content
  * 
- * @return	True or False if config.h is okay
+ * @return	True or False if config is okay
  * */
 bool	checkConfig()
 {
-	if (config::duration == 0
-		|| config::frames == 0
-		|| config::sample == 0)
+	if (Config::duration == 0
+		|| Config::frames == 0
+		|| Config::sample == 0)
 	{
-		std::cout << "Values defined in config.h cannot be set to 0!" << std::endl;
+		std::cout << "Values defined in the configuration file cannot be set to 0!" << std::endl;
 		return false;
 	}
 	return true;

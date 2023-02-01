@@ -72,7 +72,7 @@ static void logicHandler(data_type data)
 	// or reset timer if manually done
 	if (data->display == Data::None)
 		rng.start();
-	if (config::timer > 0 && rng.duration() > config::timer)
+	if (Config::timer > 0 && rng.duration() > Config::timer)
 	{
 		data->display = Data::None;
 		rng.start();
@@ -114,6 +114,12 @@ static void logicHandler(data_type data)
  * */
 void windowLoop(window_type win, data_type data, assets_type a)
 {
+	// Wait until everything is ready
+	data->trainingRdy = true;
+	if (!data->captureRdy)
+		std::cout << "Waiting on capture module.." << std::endl;
+
+	// Displaying loop
 	sf::Event	e;
 	while (win->isOpen())
 	{
@@ -131,11 +137,13 @@ void windowLoop(window_type win, data_type data, assets_type a)
 			break;
 
 		// Does a bit of logic in between
-		logicHandler(data);
+		if (data->captureRdy)
+			logicHandler(data);
 
 		// Handles drawing second
 		win->clear();
-		display(win, data, a);
+		if (data->captureRdy)
+			display(win, data, a);
 		win->display();
 	}
 }

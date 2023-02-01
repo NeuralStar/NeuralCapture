@@ -16,11 +16,11 @@ uint32_t g_unpair = 0;
  * */
 static void printDevices(t_device* devices, const uint32_t index_offset)
 {
-	if (config::allow_nopair || g_unpair)
+	if (Config::allow_nopair || g_unpair)
 		std::cout << " - Paired - " << std::endl;
 	for (uint32_t i = 0; i < g_paired; i++)
 		std::cout << " - " << i + index_offset << " : " << devices[i] << std::endl;
-	if (config::allow_nopair || g_unpair)
+	if (Config::allow_nopair || g_unpair)
 	{
 		std::cout << " - Non Paired - " << std::endl;
 		for (uint32_t i = g_paired; i < g_unpair; i++)
@@ -41,14 +41,14 @@ t_device* fetch_devices(void)
 	// Count the avaible devices
 	if (UNICORN_GetAvailableDevices(nullptr, &g_paired, true))
 		return clear(devices, nullptr, "An error occured while searching for devices!");
-	if (config::allow_nopair && UNICORN_GetAvailableDevices(nullptr, &g_unpair, false))
+	if (Config::allow_nopair && UNICORN_GetAvailableDevices(nullptr, &g_unpair, false))
 		return clear(devices, nullptr, "An error occured while searching for unpaired devices!");
 	if (!(g_paired + g_unpair))
 		return clear(devices, nullptr, "No devices could be found!\nPlease pair a device first then retry..");
 
 	// Display counts
 	std::cout << "Found Devices: " << g_paired + g_unpair << std::endl;
-	if (config::allow_nopair)
+	if (Config::allow_nopair)
 		std::cout << "Paired: " << g_paired << " | Not Paired: " << g_unpair << std::endl;
 
 	// Allocate the memory to store the devices
@@ -59,7 +59,7 @@ t_device* fetch_devices(void)
 	// Store the devices within the allocated memory
 	if (UNICORN_GetAvailableDevices(devices, &g_paired, true))
 		return clear(devices, nullptr, "Failed to fetch the devices!");
-	if (config::allow_nopair && UNICORN_GetAvailableDevices(&devices[g_paired], &g_unpair, false))
+	if (Config::allow_nopair && UNICORN_GetAvailableDevices(&devices[g_paired], &g_unpair, false))
 		return clear(devices, nullptr, "Failed to fetch the unpaired devices!");
 	return devices;
 }
