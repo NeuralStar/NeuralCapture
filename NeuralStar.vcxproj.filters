@@ -57,6 +57,9 @@
     <ClCompile Include="core\Config.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
+    <ClCompile Include="capture\filter.cpp">
+      <Filter>Source Files\Capture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\core.h">

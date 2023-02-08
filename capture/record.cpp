@@ -19,9 +19,6 @@ static bool	recordPrepare
 	uint32_t channels = 0;
 	if (UNICORN_GetNumberOfAcquiredChannels(*handle, &channels))
 		return false;
-	t_config configs;
-	if (UNICORN_GetConfiguration(*handle, &configs))
-		return false;
 
 	// Print out recording configs
 	std::cout << "Recording Configs:" << std::endl;
@@ -41,6 +38,12 @@ static bool	recordPrepare
 	if (!out.is_open())
 		return recordError(out, buffer, "Target output file couldn't be openned!");
 	return true;
+
+	// Do last preparations and define collums
+	if (UNICORN_StartAcquisition(*handle, Config::signal))
+		return recordError(out, buffer, "The recording couldnt be started!");
+	if (!defineCollums(handle, out))
+		return recordError(out, buffer, "An error occured while defining collums!");
 }
 
 /**
@@ -58,33 +61,30 @@ static bool	recordPrepare
 static bool recordRun
 	(t_handle* handle, std::ofstream &out, float* &buffer, uint32_t &buffer_size, Data *const data)
 {
-	// Do last preparations and define collums
-	if (UNICORN_StartAcquisition(*handle, Config::signal))
-		return recordError(out, buffer, "The recording couldnt be started!");
-	uint32_t calls = static_cast<int>(Config::duration * (static_cast<float>(Config::sample) / Config::frames));
-	if (!defineCollums(handle, out))
-		return recordError(out, buffer, "An error occured while defining collums!");
-
-	// Wait until everything is ready
-	data->captureRdy = true;
-	if (!data->trainingRdy)
-		std::cout << "Waiting on training module.." << std::endl;
-	while (!data->trainingRdy);
+	// Prepares timers
+	Timer<std::chrono::microseconds>	t;
+	long long							old_dur = 0;
+	long long							new_dur = 0;
 
 	// Recording loop
-	Timer<std::chrono::microseconds>	t;
 	std::cout << "Recording has started!" << std::endl;
+	uint32_t calls = static_cast<int>(Config::duration * (static_cast<float>(Config::sample) / Config::frames));
 	for (uint32_t i = 0; i < calls && data->isActive; i++)
 	{
 		// Fetch the data from the headset
 		if (UNICORN_GetData(*handle, Config::frames, buffer, buffer_size))
 			recordError(out, buffer, "An error occured while recording!");
 
-		// Output the returned data
+		// Track the time
+		t.finish();
+		old_dur = new_dur;
+		new_dur = t.duration();
+
+		// Filters and output the returned data
+		// filterBuffer(buffer, new_dur - old_dur);
 		writeValues(out, buffer, buffer_size);
 		writeDirectives(out, data);
-		t.finish();
-		out << "," << t.duration();
+		out << "," << new_dur;
 	}
 
 	// Stop recording
@@ -108,9 +108,17 @@ bool	recordDevice(t_handle* handle, Data *const data)
 	float* buffer = nullptr;
 	uint32_t buffer_size = 0;
 
-	// Prepare and run
+	// STEP 1: Prepare
 	if (!recordPrepare(handle, out, buffer, buffer_size))
 		return false;
+
+	// STEP 2: Wait until everything is ready
+	data->captureRdy = true;
+	if (!data->trainingRdy)
+		std::cout << "Waiting on training module.." << std::endl;
+	while (!data->trainingRdy);
+
+	// STEP 3: Record
 	if (!recordRun(handle, out, buffer, buffer_size, data))
 		return false;
 

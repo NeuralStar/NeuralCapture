@@ -33,3 +33,4 @@ void		writeValues(std::ofstream& out, float* buffer, uint32_t& buffer_size);
 void		writeDirectives(std::ofstream& out, Data* const data);
 
 bool		recordDevice(t_handle* handle, Data* const data);
+void		filterBuffer(float* buffer, uint64_t time_diff);

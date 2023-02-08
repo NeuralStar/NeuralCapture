@@ -15,8 +15,10 @@
 		"output": "data.csv",
 		"sample": 250,
 		"frames": 1,
-		"duration": 10.0,
+		"duration": 300.0,
 		"signal": true,
-		"allow_nopair": false
+		"allow_nopair": false,
+
+		"max_storage": 100
 	}
 }

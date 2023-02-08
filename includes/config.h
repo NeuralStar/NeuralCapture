@@ -38,6 +38,20 @@ class Config
 		// WARNING: Can takes a very long time to search!
 		static bool			allow_nopair;
 
+		// Defines the max storage capacity of inputs history
+		// NOTICES: Higher values can resuts in better filterings
+		// WARNING: Higher values can causes performances issues
+		static uint32_t		max_storage;
+
+		// Number of EEGs channels
+		static uint32_t		channels;
+
+		// Filtering rate of the amplifiers
+		static double		filter_sample;
+
+		// Interpolation factor
+		static double		interpolation_factor;
+
 		/* ******************************************* */
 		/*                                             */
 		/*                TRAINING MODE                */
