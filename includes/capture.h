@@ -29,8 +29,12 @@ t_device*	fetch_devices(void);
 t_handle*	select_device(t_device* devices);
 
 bool		defineCollums(t_handle* handle, std::ofstream& out);
-void		writeValues(std::ofstream& out, float* buffer, uint32_t& buffer_size);
-void		writeDirectives(std::ofstream& out, Data* const data);
+void		writeValues(std::ofstream& out, float* buffer, uint32_t& buffer_size, Data* const data, const long long& dur);
+void		writeDirectives(std::string& buff, Data* const data);
 
 bool		recordDevice(t_handle* handle, Data* const data);
 void		filterBuffer(float* buffer, uint64_t time_diff);
+
+bool		new_connection(const std::string& ip, const int& port);
+bool		send_data(const std::string& buffer);
+bool		stop_connection();

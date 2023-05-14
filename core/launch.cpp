@@ -30,9 +30,11 @@ int		launchCapture(data_type data)
 	{
 
 	// STEP 4: Clear everything
+		stop_connection();
 		clear(devices, target, "An error occured while trying to record the device!");
 		return exitThread(data, EXIT_FAILURE);
 	}
+	stop_connection();
 	clear(devices, target, "System exiting successfully!");
 	return exitThread(data, EXIT_SUCCESS);
 }

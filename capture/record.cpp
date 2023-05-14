@@ -13,7 +13,7 @@
  * @return	True or False if preparation was successful
  * */
 static bool	recordPrepare
-(t_handle* handle, std::ofstream& out, float*& buffer, uint32_t& buffer_size)
+	(t_handle* handle, std::ofstream& out, float*& buffer, uint32_t& buffer_size)
 {
 	// Get some data from the handle
 	uint32_t channels = 0;
@@ -33,17 +33,18 @@ static bool	recordPrepare
 	buffer = new float[buffer_size];
 	if (!buffer) return false;
 
-	// Prepare output file
-	out.open(Config::file, std::ios_base::binary);
-	if (!out.is_open())
-		return recordError(out, buffer, "Target output file couldn't be openned!");
-	return true;
+	// Prepare output file (Case: Method is Local)
+	if (Config::method == 0)
+	{
+		out.open(Config::file, std::ios_base::binary);
+		if (!out.is_open())
+			return recordError(out, buffer, "Target output file couldn't be openned!");
+	}
 
-	// Do last preparations and define collums
-	if (UNICORN_StartAcquisition(*handle, Config::signal))
-		return recordError(out, buffer, "The recording couldnt be started!");
-	if (!defineCollums(handle, out))
-		return recordError(out, buffer, "An error occured while defining collums!");
+	// OR Prepare connection to server (Case: Method is Server)
+	else if (!new_connection(Config::ip, Config::port))
+		return recordError(out, buffer, "Couldn't process networking!");
+	return true;
 }
 
 /**
@@ -61,6 +62,27 @@ static bool	recordPrepare
 static bool recordRun
 	(t_handle* handle, std::ofstream &out, float* &buffer, uint32_t &buffer_size, Data *const data)
 {
+	// Get and set configuration
+	t_config config;
+	if (UNICORN_GetConfiguration(*handle, &config))
+		return false;
+	for (int i = 0; i < 8; i++)
+	{
+		std::cout << "CHANNELS " << i << ": "
+			<< config.Channels[i].range[0] << " - "
+			<< config.Channels[i].range[1] << std::endl;
+		config.Channels[i].range[0] = -30;
+		config.Channels[i].range[1] = 30;
+	}
+	if (UNICORN_SetConfiguration(*handle, &config))
+		return false;
+
+	// Do last preparations and define collums
+	if (UNICORN_StartAcquisition(*handle, Config::signal))
+		return recordError(out, buffer, "The recording couldnt be started!");
+	if (Config::method == 0 && !defineCollums(handle, out))
+		return recordError(out, buffer, "An error occured while defining collums!");
+
 	// Prepares timers
 	Timer<std::chrono::microseconds>	t;
 	long long							old_dur = 0;
@@ -82,9 +104,8 @@ static bool recordRun
 
 		// Filters and output the returned data
 		// filterBuffer(buffer, new_dur - old_dur);
-		writeValues(out, buffer, buffer_size);
-		writeDirectives(out, data);
-		out << "," << new_dur;
+		for (uint64_t y = 0; y < Config::frames; y++)
+			writeValues(out, &buffer[y * 17], buffer_size, data, new_dur);
 	}
 
 	// Stop recording

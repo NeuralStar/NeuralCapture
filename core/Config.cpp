@@ -5,7 +5,11 @@
 bool			Config::training = true;
 bool			Config::capture = true;
 
+uint8_t			Config::method = 0;
 std::string		Config::file = "data.csv";
+std::string		Config::ip = "127.0.0.1";
+uint32_t		Config::port = 8080;
+
 uint32_t		Config::sample = 250;
 uint32_t		Config::frames = 1;
 double			Config::duration = 60.0;

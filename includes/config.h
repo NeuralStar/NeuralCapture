@@ -15,12 +15,27 @@ class Config
 
 		/* ******************************************* */
 		/*                                             */
-		/*                CAPTURE MODE                 */
+		/*                STORAGE DATA                 */
 		/*                                             */
 		/* ******************************************* */
 
+		// Saving method for the session (0: Local, 1: Server)
+		static uint8_t		method;
+
 		// Path of the output file
 		static std::string	file;
+
+		// Distant server's IP
+		static std::string	ip;
+
+		// Distant server's Port
+		static uint32_t		port;
+
+		/* ******************************************* */
+		/*                                             */
+		/*                CAPTURE MODE                 */
+		/*                                             */
+		/* ******************************************* */
 
 		// Sampling rate of the amplifiers
 		static uint32_t		sample;

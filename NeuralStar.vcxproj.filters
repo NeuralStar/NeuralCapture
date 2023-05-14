@@ -60,6 +60,9 @@
     <ClCompile Include="capture\filter.cpp">
       <Filter>Source Files\Capture</Filter>
     </ClCompile>
+    <ClCompile Include="capture\network.cpp">
+      <Filter>Source Files\Capture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\core.h">

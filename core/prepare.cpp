@@ -19,6 +19,21 @@ bool loadConfig(const std::string& p)
 		f >> j;
 		f.close();
 
+		// Insert Saving data
+		t = j.at("saving");
+		try
+		{
+			Config::method = t.at("method");
+			if (Config::method == 0)
+				Config::file = t.at("file");
+			else
+			{
+				Config::ip = t.at("ip");
+				Config::port = t.at("port");
+			}
+		}
+		catch (...) { throw; }
+
 		// Insert Training data
 		t = j.at("training");
 		Config::training = t.at("enable");
@@ -41,7 +56,6 @@ bool loadConfig(const std::string& p)
 		{
 			if (Config::capture)
 			{
-				Config::file = t.at("output");
 				Config::sample = t.at("sample");
 				Config::frames = t.at("frames");
 				Config::duration = t.at("duration");

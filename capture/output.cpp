@@ -45,7 +45,7 @@ bool defineCollums(t_handle* handle, std::ofstream& out)
 	}
 
 	// Add extra entries collums
-	out << ",Display,Direction,Timestamp";
+	out << ",Display,Direction,Timestamp\n";
 	return true;
 }
 
@@ -56,49 +56,58 @@ bool defineCollums(t_handle* handle, std::ofstream& out)
  * @param	buffer: Buffer to put down in output file
  * @param	buffer_size: Size of the buffer
  * */
-void writeValues(std::ofstream& out, float* buffer, uint32_t& buffer_size)
+void writeValues
+	(std::ofstream& out, float* buffer, uint32_t& buffer_size, Data* const data, const long long &dur)
 {
+	std::string buff;
 	for (uint32_t y = 0; y < buffer_size; y++)
 	{
-		if (y) out << ",";
-		else out << "\n";
-		out << buffer[y];
+		if (y) buff += ',';
+		buff += std::to_string(buffer[y]);
 	}
+	writeDirectives(buff, data);
+	buff += ',' + std::to_string(dur) + '\n';
+
+	if (Config::method == 0)
+		out << buff;
+	else
+		send_data(buff);
 }
 
 /**
  * Output data display and direction
  *
- * @param	out: Output stream to write on
+ * @param	buff: Output stream to write on
  * @param	data: Internal data about the software
  * */
-void writeDirectives(std::ofstream& out, Data* const data)
+void writeDirectives(std::string& buff, Data* const data)
 {
 	switch (data->display)
 	{
 		case Data::Arrow:
-			out << ",Arrow";
+			buff += ",Arrow";
 			break;
 		case Data::Text:
-			out << ",Text";
+			buff += ",Text";
 			break;
 		default:
-			out << ",None,None";
+			buff += ",None,None";
 			return;
 	}
+
 	switch (data->direction)
 	{
 		case Data::Up:
-			out << ",Up";
+			buff += ",Up";
 			break;
 		case Data::Down:
-			out << ",Down";
+			buff += ",Down";
 			break;
 		case Data::Right:
-			out << ",Right";
+			buff += ",Right";
 			break;
 		case Data::Left:
-			out << ",Left";
+			buff += ",Left";
 			break;
 	}
 }
