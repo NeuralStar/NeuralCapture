@@ -1,4 +1,6 @@
 #include <capture.h>
+#ifdef WIN32
+
 #include <WinSock2.h>
 #include <WS2tcpip.h>
 
@@ -95,3 +97,66 @@ bool send_data(const std::string &buffer)
 	}
 	return true;
 }
+
+#else /* LINUX */
+
+#include <arpa/inet.h>
+#include <sys/socket.h>
+#include <unistd.h>
+
+int					g_sock = -1;
+struct sockaddr_in	g_addr;
+
+static bool network_failure(const std::string& msg)
+{
+	std::cerr << msg << std::endl;
+	if (g_sock != -1)
+		close(g_sock);
+	g_sock = -1;
+	return false;
+}
+
+bool new_connection(const std::string& ip, const int& port)
+{
+	if (g_sock != -1)
+		stop_connection();
+
+	g_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	if (g_sock < 0)
+		return network_failure("Socket creation failed");
+
+	g_addr.sin_family = AF_INET;
+	g_addr.sin_port = htons(8080);
+	if (inet_pton(AF_INET, "127.0.0.1", &g_addr.sin_addr) <= 0)
+		return network_failure("Invalid address provided");
+
+	if (connect(g_sock, (struct sockaddr*) &g_addr, sizeof(g_addr)) < 0)
+		return network_failure("Couldnt connect to server");
+	return true;
+}
+
+bool stop_connection()
+{
+	if (g_sock != -1)
+		close(g_sock);
+	g_sock = -1;
+	return true;
+}
+
+bool send_data(const std::string &buffer)
+{
+	if (g_sock == -1)
+	{
+		std::cerr << "Connection is not initialized!" << std::endl;
+		return false;
+	}
+
+	if (send(g_sock, buffer.c_str(), (int) buffer.size(), 0) < 0)
+	{
+		std::cerr << "Failed to send data over distant server" << std::endl;
+		return false;
+	}
+	return true;
+}
+
+#endif /* WIN32 */

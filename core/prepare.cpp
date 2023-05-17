@@ -15,7 +15,7 @@ bool loadConfig(const std::string& p)
 		std::ifstream	f(p);
 		nlohmann::json	j, t;
 		if (!f.is_open())
-			throw std::exception("No such file or directory");
+			throw std::exception();
 		f >> j;
 		f.close();
 

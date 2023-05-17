@@ -9,7 +9,7 @@
 #include "Data.h"
 #include "Assets.h"
 #include "Timer.h"
-#include "Config.h"
+#include "config.h"
 
 ///  Definitions  ///
 
