@@ -1,6 +1,6 @@
 {
 	"saving": {
-		"method": 1,
+		"method": 0,
 
 		"file": "data.csv",
 		"ip": "127.0.0.1",

@@ -20,6 +20,7 @@ nullptr_t clear(t_device *devices, t_handle *handle, const std::string &msg)
 
 	if (!msg.empty())
 		std::cout << msg << std::endl;
+	std::cout << "Error: " << UNICORN_GetLastErrorText() << std::endl;
 	return nullptr;
 }
 
