@@ -45,7 +45,7 @@ bool defineCollums(t_handle* handle, std::ofstream& out)
 	}
 
 	// Add extra entries collums
-	out << ",Display,Direction,Timestamp\n";
+	out << ",Eyes X,Eyes Y, Eyes Direction,Display,Direction,Timestamp\n";
 	return true;
 }
 
@@ -57,7 +57,7 @@ bool defineCollums(t_handle* handle, std::ofstream& out)
  * @param	buffer_size: Size of the buffer
  * */
 void writeValues
-	(std::ofstream& out, float* buffer, uint32_t& buffer_size, Data* const data, const long long &dur)
+	(std::ofstream& out, float* buffer, uint32_t& buffer_size, Data* const data, const long long &dur, const std::vector<int> &eyes)
 {
 	std::string buff;
 	for (uint32_t y = 0; y < buffer_size; y++)
@@ -65,6 +65,7 @@ void writeValues
 		if (y) buff += ',';
 		buff += std::to_string(buffer[y]);
 	}
+	writeHorizon(buff, eyes);
 	writeDirectives(buff, data);
 	buff += ',' + std::to_string(dur) + '\n';
 
@@ -72,6 +73,39 @@ void writeValues
 		out << buff;
 	else
 		send_data(buff);
+}
+
+/**
+ * Appends on the buffer the interpretation of
+ * eyes tracker's data
+ * 
+ * @param	buff: Output buffer to append to
+ * @param	eyes: Eyes tracker's data
+ * */
+void writeHorizon(std::string &buff, const std::vector<int> &eyes)
+{
+	if (eyes.size() < 3)
+		buff += ",-1,-1,None";
+	buff += ',' + std::to_string(eyes[0])
+		+ ',' + std::to_string(eyes[1]);
+
+	switch (eyes[3])
+	{
+		case 1:
+			buff += ",Up";
+			break;
+		case 2:
+			buff += ",Down";
+			break;
+		case 3:
+			buff += ",Left";
+			break;
+		case 4:
+			buff += ",Right";
+			break;
+		default:
+			buff += ",None";
+	}
 }
 
 /**

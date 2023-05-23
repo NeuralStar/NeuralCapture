@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstdint>
+#include <vector>
 
 #include "unicorn.h"
 
@@ -29,8 +30,13 @@ t_device*	fetch_devices(void);
 t_handle*	select_device(t_device* devices);
 
 bool		defineCollums(t_handle* handle, std::ofstream& out);
-void		writeValues(std::ofstream& out, float* buffer, uint32_t& buffer_size, Data* const data, const long long& dur);
+void		writeValues(std::ofstream& out, float* buffer, uint32_t& buffer_size, Data* const data, const long long &dur, const std::vector<int> &eyes);
+void		writeHorizon(std::string &buff, const std::vector<int> &eyes);
 void		writeDirectives(std::string& buff, Data* const data);
+
+bool				tracker_init(void);
+std::vector<int>	tracker_getData(void);
+void				tracker_stop(void);
 
 bool		recordDevice(t_handle* handle, Data* const data);
 void		filterBuffer(float* buffer, uint64_t time_diff);

@@ -66,14 +66,6 @@ static bool recordRun
 	t_config config;
 	if (UNICORN_GetConfiguration(*handle, &config))
 		return false;
-	for (int i = 0; i < 8; i++)
-	{
-		std::cout << "CHANNELS " << i << ": "
-			<< config.Channels[i].range[0] << " - "
-			<< config.Channels[i].range[1] << std::endl;
-		config.Channels[i].range[0] = -30;
-		config.Channels[i].range[1] = 30;
-	}
 	if (UNICORN_SetConfiguration(*handle, &config))
 		return false;
 
@@ -90,8 +82,8 @@ static bool recordRun
 
 	// Recording loop
 	std::cout << "Recording has started!" << std::endl;
-	uint32_t calls = static_cast<int>(Config::duration * (static_cast<float>(Config::sample) / Config::frames));
-	for (uint32_t i = 0; i < calls && data->isActive; i++)
+	Timer<std::chrono::seconds>		dur;
+	for (dur.start(); dur.duration() < Config::duration && data->isActive;)
 	{
 		// Fetch the data from the headset
 		if (UNICORN_GetData(*handle, Config::frames, buffer, buffer_size))
@@ -102,10 +94,11 @@ static bool recordRun
 		old_dur = new_dur;
 		new_dur = t.duration();
 
-		// Filters and output the returned data
-		// filterBuffer(buffer, new_dur - old_dur);
+		std::vector<int> eyes = tracker_getData();
+
+		// Output the generated datas
 		for (uint64_t y = 0; y < Config::frames; y++)
-			writeValues(out, &buffer[y * 17], buffer_size, data, new_dur);
+			writeValues(out, &buffer[y * 17], buffer_size, data, new_dur, eyes);
 	}
 
 	// Stop recording

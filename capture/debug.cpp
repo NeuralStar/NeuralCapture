@@ -17,6 +17,7 @@ nullptr_t clear(t_device *devices, t_handle *handle, const std::string &msg)
 		delete[] devices;
 	if (handle)
 		delete handle;
+	tracker_stop();
 
 	if (!msg.empty())
 		std::cout << msg << std::endl;
@@ -40,6 +41,7 @@ bool recordError(std::ofstream &out, float* buffer, const std::string& msg)
 		out.close();
 	if (buffer)
 		delete[] buffer;
+	tracker_stop();
 
 	if (!msg.empty())
 		std::cout << msg << std::endl;

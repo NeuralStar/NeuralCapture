@@ -24,12 +24,15 @@ int		launchCapture(data_type data)
 	if (!devices) return exitThread(data, EXIT_FAILURE);
 	t_handle* target = select_device(devices);
 	if (!target) return exitThread(data, EXIT_FAILURE);
+	if (!tracker_init())
+		std::cout << "WARNING: Couldn't enable eyes tracking!" << std::endl
+			<< "(Is there a webcam, and is it accessible?..)" << std::endl;
 
 	// STEP 3: Recording
 	if (!recordDevice(target, data))
-	{
 
 	// STEP 4: Clear everything
+	{
 		stop_connection();
 		clear(devices, target, "An error occured while trying to record the device!");
 		return exitThread(data, EXIT_FAILURE);
